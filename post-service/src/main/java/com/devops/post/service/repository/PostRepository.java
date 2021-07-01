@@ -11,4 +11,5 @@ import com.devops.post.service.model.Post;
 public interface PostRepository extends JpaRepository<Post, Integer> {
 
 	List<Post> findByUsername(String username);
+	Post findByPostId(Integer id);
 }
