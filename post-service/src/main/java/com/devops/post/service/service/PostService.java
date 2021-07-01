@@ -1,5 +1,7 @@
 package com.devops.post.service.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,5 +19,9 @@ public class PostService {
 
 	public Post findById(Integer id) {
 		return postRepository.findById(id).get();
+	}
+
+	public List<Post> findByUsername(String username) {
+		return postRepository.findByUsername(username);
 	}
 }

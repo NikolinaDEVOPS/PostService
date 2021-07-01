@@ -1,4 +1,6 @@
 package com.devops.post.service.controller;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,8 +27,8 @@ public class PostController {
 		return postService.savePost(post);
 	}
 	
-	@GetMapping("/{id}")
-	public Post findOne(@PathVariable Integer id) {
-	    return postService.findById(id);
+	@GetMapping("/{username}")
+	public List<Post> findByUsername(@PathVariable String username) {
+	    return postService.findByUsername(username);
 	}
 }
