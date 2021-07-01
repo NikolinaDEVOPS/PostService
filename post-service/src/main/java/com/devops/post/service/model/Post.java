@@ -1,10 +1,15 @@
 package com.devops.post.service.model;
 
+import java.util.List;
+
+import javax.persistence.CollectionTable;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -22,4 +27,16 @@ public class Post {
 	private String description;
 	private String username;
 	private String picture;
+	
+	@Column(name="likedBy")
+	@ElementCollection(targetClass=String.class)
+	private List<String> likedBy;
+	
+
+	@Column(name="dislikedBy")
+	@ElementCollection(targetClass=String.class)
+	private List<String> dislikedBy;
+	
+	@OneToMany()
+	private List<Comment> postComments;
 }
