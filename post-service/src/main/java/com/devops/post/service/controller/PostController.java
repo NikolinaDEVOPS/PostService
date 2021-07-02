@@ -31,10 +31,25 @@ public class PostController {
 		post.setDislikedBy(list);
 		return postService.savePost(post);
 	}
+	@GetMapping("/public")
+	public List<Post> getAllPublic() {
+	    return postService.findAllPublic();
+	}
+	
+	@GetMapping("/search")
+	public List<Post> getAllPublic(@RequestBody String tag) {
+		System.out.println(tag);
+	    return postService.searchByTag(tag);
+	}
 	
 	@GetMapping("/{username}")
 	public List<Post> findByUsername(@PathVariable String username) {
 	    return postService.findByUsername(username);
+	}
+	
+	@GetMapping("/id/{id}")
+	public Post findById(@PathVariable Integer id) {
+	    return postService.findById(id);
 	}
 	
 	@GetMapping("/{username}/like/{postId}")
