@@ -1,12 +1,14 @@
 package com.devops.post.service.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import org.springframework.web.client.RestTemplate;
 import com.devops.post.service.model.Comment;
 import com.devops.post.service.model.Post;
+import com.devops.post.service.model.User;
 import com.devops.post.service.repository.CommentRepository;
 import com.devops.post.service.repository.PostRepository;
 
@@ -17,6 +19,9 @@ public class PostService {
 	
 	@Autowired
 	private CommentRepository commentRepository;
+	
+	@Autowired
+	private RestTemplate restTemplate;
 
 	public Post savePost(Post post) {
 		return postRepository.save(post);
@@ -66,5 +71,32 @@ public class PostService {
 		post.getPostComments().add(comment);
 		postRepository.save(post);
 		return comment;
+	}
+
+	public List<Post> findAllPublic() {
+		User[] publicUsers =
+				restTemplate.getForObject(
+				"http://ACCOUNT-SERVICE/user/public"
+				, User[].class);
+		
+		List<Post> posts = new ArrayList<Post>();
+		List<Post> post;
+		for (int i = 0; i < publicUsers.length; i++) {
+		
+			post = postRepository.findByUsername(publicUsers[i].getUsername());
+			posts.addAll(post);
+		}
+		return posts;
+	}
+
+	public List<Post> searchByTag(String tag) {
+		List<Post> posts = findAllPublic();
+		List<Post> searchResult = new ArrayList<Post>();
+		for (int i = 0; i < posts.size(); i++) {
+			if (posts.get(i).getTags().contains(tag)) {
+				searchResult.add(posts.get(i));
+			}
+		}
+		return searchResult;
 	}
 }

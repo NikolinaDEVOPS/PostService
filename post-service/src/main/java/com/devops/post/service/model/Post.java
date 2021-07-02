@@ -37,6 +37,10 @@ public class Post {
 	@ElementCollection(targetClass=String.class)
 	private List<String> dislikedBy;
 	
+	@Column(name="tags")
+	@ElementCollection(targetClass=String.class)
+	private List<String> tags;
+	
 	@OneToMany()
 	private List<Comment> postComments;
 }
